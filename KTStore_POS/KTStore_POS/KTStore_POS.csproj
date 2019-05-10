@@ -2033,6 +2033,7 @@
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="kt_sales\Sale.htm" />
     <Content Include="Models\EFModel\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -2298,7 +2299,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\plugins\sweetalert2-master\dist\" />
     <Folder Include="Controllers\Sales\" />
-    <Folder Include="kt_sales\" />
     <Folder Include="MP.Core\BUS\Products\" />
     <Folder Include="MP.Core\BUS\Reports\" />
     <Folder Include="MP.Core\Lib\Extension\" />

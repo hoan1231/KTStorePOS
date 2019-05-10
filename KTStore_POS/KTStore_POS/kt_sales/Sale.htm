@@ -1,0 +1,950 @@
+﻿<!DOCTYPE html>
+<html ng-app="pos.sell" manifest="/Offline/Sell" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths k-ff k-ff66 ng-scope js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths k-webkit k-webkit74">
+<head>
+    <style type="text/css">
+        @charset "UTF-8";
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility: hidden;
+        }
+
+        .ng-anchor {
+            position: absolute;
+        }
+    </style>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        @charset "UTF-8";
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility: hidden;
+        }
+
+        .ng-anchor {
+            position: absolute;
+        }
+    </style>
+    <!-- Copyright © 2019 - 365 Software JSC (POS365.VN) -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="robots" content="none">
+
+    <meta name="apple-mobile-web-app-title" content="POS365.VN">
+    <meta name="application-name" content="POS365.VN">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="POS365.VN">
+
+
+    <title>POS365.VN</title>
+
+    <script async="" src="POS365.VN_files/analytics.js"></script>
+    <script type="text/javascript" src="POS365.VN_files/jquery"></script>
+
+    <script type="text/javascript">
+        var printerServer = 'localhost';
+    </script>
+    <script type="text/javascript" src="POS365.VN_files/database"></script>
+
+    <script type="text/javascript" src="POS365.VN_files/angular.js"></script>
+
+
+    <script type="text/javascript" src="POS365.VN_files/angular"></script>
+
+    <script type="text/javascript" src="POS365.VN_files/kendo.js"></script>
+
+    <script src="POS365.VN_files/VendorSession.js" type="text/javascript"></script>
+    <script type="text/javascript" src="POS365.VN_files/sell"></script>
+
+    <link rel="stylesheet" href="POS365.VN_files/bootstrap.css">
+
+    <link rel="stylesheet" href="POS365.VN_files/kendo_002.css">
+
+    <link rel="stylesheet" href="POS365.VN_files/kendo.css">
+
+    <link rel="stylesheet" href="POS365.VN_files/layout.css">
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-62807506-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <!-- SCRIPTS -->
+    <!--[if IE]><script src="~/Scripts/html5shiv-printshiv.min.js)")"></script><![endif]-->
+    <script type="text/javascript">
+        var swapcache = false;
+        try {
+            window.applicationCache.addEventListener('updateready', function () {
+                swapcache = true;
+                if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                    window.location.reload();
+                }
+            });
+        } catch (e) {
+
+        }
+
+        qz.websocket.setClosedCallbacks(function (evt) {
+            setInterval(function () {
+
+                if (!qz.websocket.isActive()) {
+                    startConnection({ retries: 0, host: (typeof printerServer != "undefined" && printerServer) ? printerServer : 'localhost' });
+                }
+            }, 5000);
+        });
+        function handleConnectionError(err) {
+            if (err.target != undefined) {
+                if (err.target.readyState >= 2) { //if CLOSING or CLOSED
+                    console.log("Connection to 365 Tray was closed");
+                } else {
+                    console.log("A connection error occurred, check log for details");
+                    console.log(err);
+                }
+            } else {
+                console.log(err);
+            }
+        }
+        function startConnection(config) {
+            if (!qz.websocket.isActive()) {
+                console.log("365Tray > Waiting");
+                qz.websocket.connect(config).then(function () {
+                    console.log("365Tray > Success");
+                    findVersion();
+                }).catch(handleConnectionError);
+            } else {
+                console.log('365Tray > An active connection with 365 already exists.');
+            }
+        }
+
+        function endConnection() {
+            if (qz.websocket.isActive()) {
+                qz.websocket.disconnect().then(function () {
+                    console.log('365Tray > Inactive');
+                }).catch(handleConnectionError);
+            } else {
+                console.log('365Tray > No active connection with 365 exists.');
+            }
+        }
+        var qzVersion = 0;
+        function findVersion() {
+            qz.api.getVersion().then(function (data) {
+                qzVersion = data;
+                console.log("365Tray > " + qzVersion)
+            }).catch(displayError);
+        }
+        function displayError(err) {
+            console.log(err);
+        }
+        $(document).ready(function () {
+            startConnection({ retries: 0, host: (typeof printerServer != "undefined" && printerServer) ? printerServer : 'localhost' });
+        });</script>
+</head>
+<body class="theme-whbl modal-open">
+    <div id="theme-wrapper" ng-controller="SellCtrl" class="ng-scope">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-static-top" id="header-navbar">
+            <div class="container-fluid">
+                <div class="col-sm-3" style="padding-left:0px">
+
+                    <div class="input-group" style="margin-top:10px;">
+                        <div class="input-group-btn">
+
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> <i class="fa fa-barcode"></i> <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)" ng-click="changesearchType(1)" class="ng-binding"><i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp; <i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-barcode"></i> Tìm kiếm thông minh</a></li>
+                                <li><a href="javascript:void(0)" ng-click="changesearchType(2)" class="ng-binding"><i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-search-plus"></i>&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp; <i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-barcode"></i> Tìm kiếm nhanh</a></li>
+                                <li><a href="javascript:void(0)" ng-click="changesearchType(3)" class="ng-binding"><i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-balance-scale"></i>&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;<i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-barcode"></i> Quét mã từ cân điện tử</a></li>
+                                <li><a href="javascript:void(0)" ng-click="changesearchType(4)" class="ng-binding"><i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-balance-scale"></i>&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;<i style="position: inherit;margin-left: 0px;margin-top: 5px;font-weight:bold" class="fa fa-barcode"></i> Quét mã từ cân điện tử (Checksum)</a></li>
+
+                            </ul>
+                        </div>
+                        <form name="searchForm" class="ng-pristine ng-valid">
+                            <input type="text" class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="findproduct" typeahead="pitem as pitem.Code for pitem in  getProducts($viewValue)" typeahead-wait-ms="400" select-on-focus="" typeahead-template-url="template/typeahead/typeahead-codename.html" typeahead-on-select="addProductToCart($model);findproduct=null;" ng-keypress="addProductToCardByCode($event,findproduct)" id="inputtypehead" name="inputtypehead" placeholder="Tìm kiếm mặt hàng" style="height:34px;" autocomplete="off" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-5-3504"><div typeahead-popup="" id="typeahead-5-3504" matches="matches" active="activeIdx" select="select(activeIdx)" move-in-progress="moveInProgress" query="query" position="position" template-url="template/typeahead/typeahead-codename.html" class="ng-scope"></div><ul class="dropdown-menu droptypehead ng-isolate-scope ng-hide" ng-show="isOpen() &amp;&amp; !moveInProgress" ng-style="{top: position().top+'px', left: position().left+'px'}" style="display: block;max-height:calc(100vh - 200px);overflow:auto" role="listbox" aria-hidden="true" typeahead-popup="" id="typeahead-5-9615" matches="matches" active="activeIdx" select="select(activeIdx)" move-in-progress="moveInProgress" query="query" position="position" template-url="template/typeahead/typeahead-codename.html"></ul>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="col-sm-9" style="padding-right:0px;padding-left:0px">
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <div class="scrtabs-tab-container" scrolling-tabs-wrapper="" watch-tabs="tabs">
+                                <div class="scrtabs-tab-scroll-arrow scrtabs-js-tab-scroll-arrow-left" style="display: none;">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </div>
+                                <div class="scrtabs-tabs-fixed-container" style="width: 1030px;">
+                                    <div class="scrtabs-tabs-movable-container" style="width: 351px; left: 0px;">
+                                        <div class="ng-scope ng-isolate-scope">
+                                            <ul class="nav nav-tabs">
+                                                <!-- ngRepeat: tab in tabs -->
+                                                <li class="ng-scope ng-isolate-scope active">
+                                                    <a href="#" class="ng-binding">
+                                                        <tab-heading class="ng-scope">
+                                                            <span ng-show="tab.title" class="ng-binding ng-hide"></span>
+                                                            <span ng-show="!tab.title" class="ng-binding">Đơn hàng 1</span>
+                                                            &nbsp;
+                                                        </tab-heading>
+                                                    </a>
+                                                    <a><i class="fa fa-remove"></i></a><br>
+                                                    <span style="font-size:0.65em;" class="ng-binding">Khách lẻ</span>
+                                                </li><!-- end ngRepeat: tab in tabs -->
+                                                <li class="ng-isolate-scope">
+                                                    <a href="#" tab-heading-transclude="" class="ng-binding">
+                                                        <tab-heading class="ng-scope">
+                                                            <span ng-show="tab.title" class="ng-binding ng-hide"></span>
+                                                            <span ng-show="!tab.title" class="ng-binding">Đơn hàng 2</span>
+                                                            &nbsp;
+                                                        </tab-heading>
+                                                    </a><a ng-click="removeTab($index,$event,tab.paneId)"><i class="fa fa-remove"></i></a><br>
+                                                    <span style="font-size:0.65em;" class="ng-binding">Khách lẻ</span>
+                                                </li><!-- end ngRepeat: tab in tabs -->
+                                                <li class="ng-isolate-scope">
+                                                    <a href="#" class="ng-binding">
+                                                        <tab-heading class="ng-scope">
+                                                            <span ng-show="tab.title" class="ng-binding ng-hide"></span>
+                                                            <span ng-show="!tab.title" class="ng-binding">Đơn hàng 3</span>
+                                                            &nbsp;
+                                                        </tab-heading>
+                                                    </a><a><i class="fa fa-remove"></i></a><br>
+                                                    <span style="font-size:0.65em;" class="ng-binding">Khách lẻ</span>
+
+
+                                                </li><!-- end ngRepeat: tab in tabs -->
+                                                <li class="ng-scope">
+                                                    <a ng-click="addTab($event)">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content scrtabs-tab-content-hidden">
+                                                <div class="tab-pane ng-scope active" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                                </div>
+                                                <div class="tab-pane ng-scope" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                                </div>
+                                                <div class="tab-pane ng-scope" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div> <div class="scrtabs-tab-scroll-arrow scrtabs-js-tab-scroll-arrow-right" style="display: none;"><span class="glyphicon glyphicon-chevron-right"></span></div><div class="tab-content scrtabs-tab-content-clone">
+                                    <!-- ngRepeat: tab in tabs --><div class="tab-pane ng-scope active" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                    </div><!-- end ngRepeat: tab in tabs --><div class="tab-pane ng-scope" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                    </div><!-- end ngRepeat: tab in tabs --><div class="tab-pane ng-scope" ng-repeat="tab in tabs" ng-class="{active: tab.active}" tab-content-transclude="tab">
+
+
+                                    </div><!-- end ngRepeat: tab in tabs -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 sell-nav">
+                            <ul class="nav navbar-nav navbar-right nav-right">
+                                <li class="dropdown profile-dropdown hidden-sm hidden-xs">
+                                    <a href="javascript:void(0)" ng-click="openOffline()" tooltip="Đơn hàng Offline (Chờ đồng bộ)" tooltip-placement="bottom" tooltip-append-to-body="true">
+
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-cloud fa-stack-1x green"></i>
+                                        </span>
+                                        <span class="count ng-binding" style="width: 15px;right:0px">0</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown profile-dropdown hidden-sm hidden-xs">
+                                    <a href="javascript:void(0)" ng-click="openOrder()" tooltip="Xử lý đơn hàng" tooltip-placement="bottom" tooltip-append-to-body="true">
+
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-bell fa-stack-1x red"></i>
+                                        </span>
+                                        <span class="count ng-binding" style="width: 15px;right:0px">0</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown profile-dropdown" style="float:right;">
+                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" tooltip="Quay về trang Quản lý" tooltip-placement="bottom" tooltip-append-to-body="true">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-power-off fa-stack-1x red"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <div id="config-tool">
+                                                <ul id="skin-colors" class="clearfix">
+                                                    <li>
+                                                        <a class="skin-changer" data-skin="theme-white" data-toggle="tooltip" title="" style="background-color: #2ecc71;" data-original-title="White/Green">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="skin-changer blue-gradient" data-skin="theme-blue-gradient" data-toggle="tooltip" title="" data-original-title="Gradient">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="skin-changer" data-skin="theme-red" data-toggle="tooltip" title="" style="background-color: #e74c3c;" data-original-title="Red">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="skin-changer active" data-skin="theme-whbl" data-toggle="tooltip" title="" style="background-color: #3498db;" data-original-title="White/Blue">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="skin-changer" data-skin="theme-amethyst" data-toggle="tooltip" title="" style="background-color: #9b59b6;" data-original-title="Amethyst">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="skin-changer active" data-skin="theme-black" data-toggle="tooltip" title="" style="background-color: #34495e;" data-original-title="Default">
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li><a href="javascript:void(0)" ng-click="logout()" class="ng-binding"><i class="fa fa-sign-out"></i>Đăng xuất (0346847121)</a></li>
+                                        <li><a href="/#/Dashboard" class="ng-binding"><i class="fa fa-dashboard"></i>Quay về trang Quản lý</a></li>
+                                    </ul>
+
+                                </li>
+                                <li class="dropdown profile-dropdown" style="float:right;">
+                                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" tooltip="Thiết lập" tooltip-placement="bottom" tooltip-append-to-body="true">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-list-ul fa-stack-1x red"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a ng-click="openOrder()" href="javascript:void(0)" class="ng-binding"><i class="fa fa-pencil-square-o"></i>Xử lý đơn hàng</a></li>
+                                        <li><a ng-click="importExcel()" href="javascript:void(0)" class="ng-binding"><i class="fa fa-upload"></i>Import Đơn hàng</a></li>
+                                        <li><a ng-click="AddNewProduct()" href="javascript:void(0)" class="ng-binding"><i class="fa fa-plus-square"></i>Thêm mới Hàng hóa</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a ng-click="makeReturn()" href="javascript:void(0)" class="ng-binding"><i class="fa fa-share"></i>Trả hàng</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a ng-click="checkPrice()" href="javascript:void(0)" class="ng-binding"><i class="fa fa-search"></i>Tra cứu giá nhanh</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="javascript:void(0)" ng-click="changeOrderingSounds()" class="ng-binding"><i class="fa fa-check ng-hide" ng-show="orderingSounds"></i>Âm báo đơn đặt hàng ?</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="javascript:void(0)" ng-click="ChangePrintType(1)" class="ng-binding"><i class="fa fa-dot-circle-o"></i>Mẫu in nhỏ (58mm,80mm)</a></li>
+
+                                        <li><a href="javascript:void(0)" ng-click="ChangePrintType(2)" class="ng-binding"><i class="fa fa-circle-o"></i>Mẫu in lớn (A4, A5...)</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="javascript:void(0)" ng-click="PrintAfterPay()" class="ng-binding"><i class="fa fa-check" ng-show="printAfterSave"></i>In sau khi bấm Thanh toán</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="javascript:void(0)" ng-click="DontPrintEmptyPrice()" class="ng-binding"><i class="fa fa-check ng-hide" ng-show="dontprintEmptyPrice"></i>Không in ra hàng giá bán = 0</a></li>
+                                        <li><a href="javascript:void(0)" ng-click="CopyReceiptPrinting()" class="ng-binding"><i class="fa fa-check ng-hide" ng-show="copyReceiptPrinting"></i>In 2 liên cho hóa đơn</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="/#/SalesReport?view=EndOfDayReport" class="ng-binding"><i class="fa fa-bar-chart"></i>Tổng kết cuối ngày</a></li>
+                                        <li style="border-top: 1px solid gainsboro;"><a href="javascript:void(0)" ng-click="toggleHelp()" class="ng-binding"><i class="fa fa-keyboard-o" ng-show="printAfterSave"></i>Bảng phím tắt</a></li>
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="header-branch" class="hidden-sm hidden-xs"><span style="padding:2px;" class="ng-binding"><i class="fa fa-map-marker"></i> HA NOI</span></div>
+
+            </div><!--/.container-fluid -->
+        </nav>
+        <div id="page-wrapper" class="container">
+            <div class="row">
+                <!--Begin-->
+                <div class="col-sm-9" style="padding-left:0px; padding-right:0px;">
+                    <div id="content-wrapper" style="padding:10px 5px 0px 5px;min-height:0;">
+                        <div class="row" style="opacity: 1;">
+                            <div class="col-lg-12">
+                                <script type="text/ng-template" id="popoverTime.html">
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_From'|translate}}</label>
+                                        <div class="input-group">
+                                            <input kendo-date-time-picker
+                                                   k-ng-model="dataItem.Checkin"
+                                                   style="width: 100%;" k-format="'dd/MM/yyyy HH:mm'" k-on-change="changeCheckin()" />
+                                        </div>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverExpiryDate.html">
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_ExpirationDate'|translate}}</label>
+                                        <div class="input-group">
+                                            <input kendo-date-time-picker
+                                                   k-ng-model="dataItem.ExpiryDate"
+                                                   style="width: 100%;" k-format="'dd/MM/yyyy HH:mm'" />
+                                        </div>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverDescription.html" class="bigDesc">
+                                    <div class="form-group">
+                                        <span ng-show="dataItem.OrderQuickNotes&&dataItem.OrderQuickNotes.length>0" ng-click="addDescription(d,dataItem)" style="margin-right:5px;margin-bottom:5px;cursor:pointer;font-size:1em;word-wrap: normal;
+  display: inline-block;padding: 0.5em .7em .5em!important;" class="label label-success exclude" ng-repeat="d in (dataItem.OrderQuickNotes ? dataItem.OrderQuickNotes.split(',') : []) track by $index">{{d}}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea ng-model="dataItem.Description" class="form-control exclude" rows="4" style="width:380px"></textarea>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverLot.html">
+                                    <a ng-show="dataItem.SerialNumbers" ng-click="clearLot(dataItem)" class="has-pointer pull-right">Lot</a>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_Product_SerialNumbers'|translate}}</label>
+                                        <input ng-model="dataItem.SerialNumbers" class="form-control exclude" typeahead="resultitem as resultitem.SerialNumber for resultitem in  getLot($viewValue,dataItem.ProductId)" typeahead-wait-ms="400" select-on-focus typeahead-on-select="addLotToDataItem($model,dataItem)" />
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_ExpirationDate'|translate}}</label>
+                                        <input kendo-date-picker class="exclude"
+                                               k-ng-model="dataItem.ExpiryDate"
+                                               style="width: 100%;" k-format="'dd/MM/yyyy'" />
+                                    </div>
+                                    <div class="form-group">
+                                        <a href="javascript:void(0)" ng-click="viewSerials(dataItem)"><i class="fa fa-search"></i> {{'label_LookupLot'|translate}}</a>
+                                    </div>
+                                </script>
+
+                                <script type="text/ng-template" id="modaPayment.html">
+                                    <div class="md-content">
+                                        <div class="modal-header">
+                                            <button class="md-close close" ng-click="modaPaymentcancel()"><i class="fa fa-close"></i> </button>
+                                            <h4 class="modal-title">{{'label_Payment'|translate}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <div class="form-group">
+                                                                <label>{{'label_Discount'|translate}} (%)</label>
+                                                                <div class="input-group">
+                                                                    <input ng-model="order.DiscountRatio" class="form-control text-right exclude" select-on-focus ui-numeric="{vMin:0}" ng-change="changeDiscountRatio()" ng-virtual-keyboard="{display: 'left',kt: 'Numerico' ,customClass: 'myCustomizedVkt',size:4}" />
+                                                                    <span class="input-group-addon">&nbsp;%</span>
+                                                                </div>
+                                                                <div class="btn-group" data-toggle="buttons">
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(0)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 0%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(5)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 5%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(10)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 10%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(15)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 15%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(20)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 20%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(25)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 25%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(30)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 30%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(50)" style="padding: 5px 10px">
+                                                                        <input type="checkbox"> 50%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(60)" style="padding: 5px 0px">
+                                                                        <input type="checkbox"> 60%
+                                                                    </label>
+                                                                    <label class="btn btn-primary" ng-click="changeDiscountRatio(70)" style="padding: 5px 3px">
+                                                                        <input type="checkbox"> 70%
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>{{'label_Value'|translate}}</label>
+                                                            <input autofocus ng-model="order.DiscountValue" class="form-control text-right exclude" select-on-focus ui-numeric="{vMin:0}" ng-change="changeDiscount()" ng-virtual-keyboard="{display: 'left',kt: 'Numerico' ,customClass: 'myCustomizedVkt',size:4}" />
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-group">
+                                                        <label class="control-label">{{'label_DiscountByPoint'|translate}} [{{'label_Point'|translate}} = {{order.Partner.Point|formatNumber}}], {{'label_PointConfig_PointToValue'|translate|stringFormat:(session.pointconfig.PointToValue|formatNumber)}} ₫</label>
+                                                        <div class="input-group">
+                                                            <input ng-disabled="!(order.PartnerId&&session.pointconfig.PointToValue)" ng-model="order.MoreAttributes.PointDiscount" class="form-control text-right exclude" select-on-focus ui-numeric="{vMin:0}" ng-change="changePoint()" />
+                                                            <span class="input-group-addon"><i class="fa fa-gift"></i></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <form name="searchVoucher">
+                                                                <div class="form-group">
+                                                                    <label>{{'label_Voucher_Code'|translate}} (voucher)</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" class="form-control" ng-model="findvoucher" typeahead="pitem as pitem.Code for pitem in  getVouchers($viewValue)" typeahead-wait-ms="400" select-on-focus typeahead-template-url="template/typeahead/typeahead-codeprice.html" typeahead-on-select="addVoucher($model);findvoucher=null;" ng-keypress="addVoucherCode($event,findvoucher)" id="inputtypeheadvoucher" name="inputtypeheadvoucher" placeholder="Enter hoặc Quét mã để lấy thông tin Voucher..." style="height:34px;" ng-virtual-keyboard="{relative: false, display: 'right',size: 2,customClass: 'myCustomizedVkt'}" autocomplete="off">
+
+                                                                        <span class="input-group-addon has-pointer"><i class="fa fa-search red"></i></span>
+
+                                                                    </div>
+                                                                    <div style="padding-left:5px;font-size:0.75em;" ng-repeat="vc in order.MoreAttributes.Vouchers"><a href="javascript:void(0)" ng-click="removeVoucher($index)"><span class="fa fa-remove"></span></a> {{vc.Code}} - {{vc.Value|formatNumber}}</div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>{{'label_Amount'|translate}} voucher</label>
+                                                            <input readonly ng-model="order.Voucher" class="form-control text-right " select-on-focus ui-numeric="{vMin:0}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="border-top:1px dashed gray;">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            {{'label_ShippingCost'|translate}}
+                                                        </label>
+                                                        <div class="input-group" style="width:100%">
+                                                            <input type="text" class="form-control text-right" ng-model="order.ShippingCost" select-on-focus ui-numeric="{vMin:0}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        {{'label_GrandTotal'|translate}}
+                                                    </label>
+                                                    <div class="label label-primary  label-large" style="width:100%;display:block;font-size:24px">{{order.Total|formatNumber }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>{{'label_AmountReceived'|translate}}</label>
+                                                        <div class="input-group" style="width:100%">
+                                                            <input autofocus type="text" class="form-control text-right" placeholder="{{'label_Payment'|translate}}" ng-model="order.TotalPayment" required select-on-focus ui-numeric="{vMin:0}" ng-change="refreshExcessCash()" style="font-weight:bold" ng-virtual-keyboard="{display: 'right',kt: 'Numerico' ,customClass: 'myCustomizedVkt',size:4}">
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        {{'label_ExcessCash'|translate}}
+                                                    </label>
+                                                    <div class="label label-success  label-large" style="width:100%;display:block;font-size:24px">{{order.ExcessCash|formatNumber }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <button style="padding:0px 15px 0px 15px;width:100%;margin-top:5px;" class="btn btn-warning btn-lg btn-ex" type="button" ng-click="modaPaymentcancel()">{{'button_Cancel'|translate}}<br /><span class="fa fa-backward"></span> [ESC]</button><br />
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button style="padding:0px 15px 0px 15px;width:100%;margin-top:5px;" class="btn btn-danger btn-lg btn-exgreen" type="button" ng-click="save()">{{(order.Status == OrderStateMap.Completed? 'label_Payment':'button_Save')|translate}} <br /><span class="fa fa-shopping-cart"></span> [F4]</button>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </script>
+
+                                <script type="text/ng-template" id="popoverTotalOnItem.html">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input ng-model="dataItem.TotalOnItem" class="form-control text-right exclude" select-on-focus ui-numeric="{vMin:0}" ng-change="changeTotalOnItem(dataItem)" />
+                                        </div>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverVATRatio.html">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input ng-model="order.VATRates" class="form-control text-right exclude" select-on-focus ui-numeric="{vMin:0}" ng-change="changeVAT(order.VATRates)" />
+                                            <span class="input-group-addon">&nbsp;%</span>
+                                        </div>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverDiscountRatioOnItem.html">
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_Discount'|translate}}</label>
+                                        <div class="input-group">
+
+                                            <input ng-model="dataItem.DiscountRatio" class="form-control text-right exclude" select-on-focus ui-numeric ng-change="changeDiscountRatioOnItem(dataItem)" />
+                                            <span class="input-group-addon">&nbsp;%</span>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(0,dataItem)">
+                                            <input type="checkbox"> 0%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(5,dataItem)">
+                                            <input type="checkbox"> 5%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(10,dataItem)">
+                                            <input type="checkbox"> 10%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(15,dataItem)">
+                                            <input type="checkbox"> 15%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(20,dataItem)">
+                                            <input type="checkbox"> 20%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(25,dataItem)">
+                                            <input type="checkbox"> 25%
+                                        </label>
+                                        <label class="btn btn-primary" ng-click="changeDiscountRatioOnItemCustom(50,dataItem)">
+                                            <input type="checkbox"> 50%
+                                        </label>
+                                    </div>
+                                    <div class="form-group" ng-show="session.retailer.Id === 8725">
+                                        <label class="control-label">{{'label_Discount'|translate}} 2</label>
+                                        <div class="input-group">
+
+                                            <input ng-model="dataItem.DiscountRatio2" class="form-control text-right exclude" select-on-focus ui-numeric ng-change="changeDiscountRatioOnItem2(dataItem)" />
+                                            <span class="input-group-addon">&nbsp;%</span>
+                                        </div>
+                                    </div>
+                                </script>
+                                <script type="text/ng-template" id="popoverSoldByOnItem.html">
+                                    <div class="themecolor text-center"><h1>{{'label_BonusPoint'|translate}}</h1></div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_SoldBy_Help'|translate}} <span class="themecolor"> [{{dataItem.BonusPoint}} %]</span></label>
+                                        <select k-filter="'contains'" kendo-drop-down-list
+                                                k-data-text-field="'Name'"
+                                                k-data-value-field="'Id'"
+                                                k-data-source="allUsers"
+                                                k-value-primitive="true"
+                                                k-ng-model="dataItem.SoldById"
+                                                style="width: 100%" class="exclude" k-option-label="'---{{'label_SoldBy'|translate}}---'"></select>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_AssistantBy_Help'|translate}} <span class="themecolor"> [{{dataItem.BonusPointForAssistant}} %]</span></label>
+                                        <select k-filter="'contains'" kendo-drop-down-list
+                                                k-data-text-field="'Name'"
+                                                k-data-value-field="'Id'"
+                                                k-data-source="allUsers"
+                                                k-value-primitive="true"
+                                                k-ng-model="dataItem.AssistantById"
+                                                style="width: 100%" class="exclude" k-option-label="'---{{'label_AssistantBy'|translate}}---'"></select>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_AssistantBy_Help'|translate}} 2 <span class="themecolor"> [{{dataItem.BonusPointForAssistant2}} %]</span></label>
+                                        <select k-filter="'contains'" kendo-drop-down-list
+                                                k-data-text-field="'Name'"
+                                                k-data-value-field="'Id'"
+                                                k-data-source="allUsers"
+                                                k-value-primitive="true"
+                                                k-ng-model="dataItem.AssistantById2"
+                                                style="width: 100%" class="exclude" k-option-label="'---{{'label_AssistantBy'|translate}} 2---'"></select>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{'label_AssistantBy_Help'|translate}} 3 <span class="themecolor"> [{{dataItem.BonusPointForAssistant3}} %]</span></label>
+                                        <select k-filter="'contains'" kendo-drop-down-list
+                                                k-data-text-field="'Name'"
+                                                k-data-value-field="'Id'"
+                                                k-data-source="allUsers"
+                                                k-value-primitive="true"
+                                                k-ng-model="dataItem.AssistantById3"
+                                                style="width: 100%" class="exclude" k-option-label="'---{{'label_AssistantBy'|translate}} 3---'"></select>
+
+                                    </div>
+                                </script>
+                                <div class="selltable table-responsive logosell">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:24px" class="hidden-sm hidden-xs"><span>#</span></th>
+                                                <th class="text-left hidden-sm hidden-xs" style="width:120px"><span class="ng-binding">Mã</span></th>
+                                                <th><span class="ng-binding">Tên hàng hóa</span></th>
+
+                                                <th class="text-center" style="width:90px"><span class="ng-binding">Đơn giá</span></th>
+
+                                                <th class="text-center" style="width:170px"><span class="ng-binding">SL</span></th>
+                                                <th class="text-center  hidden-xs" style="width:90px"><span class="ng-binding">Thành tiền</span></th>
+                                                <th class="text-center" style="width:20px"><span></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ngRepeat: dataItem in order.OrderDetails  track by $index -->
+                                        </tbody>
+                                    </table>
+                                    <p ng-hide="order.OrderDetails.length" style="font-style:italic;color:gray;text-align:center;width:100%" class="ng-binding">Chưa có mặt hàng nào trong danh sách.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row hidden-xs" style="opacity: 1;">
+                            <div class="col-sm-12 productlist">
+                                <div class="icon-box pull-right">
+                                    <a href="javascript:void(0)" ng-click="openNotebook()" class="btn pull-left hidden-sm" style="padding: 0px 5px;font-size:0.625em">
+                                        <i class="fa  fa-book"></i>
+                                    </a>
+                                    <a ng-hide="hideFilterProduct" ng-click="filterByAttributes()" class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                        <i class="fa fa-filter"></i>
+                                    </a>
+                                    <select ng-hide="hideFilterProduct" class="pull-left ng-pristine ng-untouched ng-valid ng-empty" style="height: 16px; font-size: 12px; font-weight: bold;border-radius:3px;border:1px solid #ccc;" ng-model="filterProductPanelByCategory" ng-options="item.id as item.text for item in categories" ng-change="FilterByCategory()"><option value="" class="ng-binding" selected="selected">-- Chọn nhóm--</option></select>
+                                    <a ng-hide="hideFilterProduct" ng-click="pagingProductPanel('previous')" class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                        <i class="fa fa-chevron-left"></i>
+                                    </a>
+                                    <a ng-hide="hideFilterProduct" class="btn pull-left ng-binding" style="padding: 0px 5px;font-size:0.625em">
+                                        1 / 2
+                                    </a>
+
+                                    <a ng-hide="hideFilterProduct" ng-click="pagingProductPanel('next')" class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                    <a ng-hide="hideFilterProduct" ng-click="togglePanel()" class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                        <i ng-class="togglePanelClass" class="fa fa-chevron-down"></i>
+                                    </a>
+                                </div>
+                                <div class="simpleTab ng-isolate-scope">
+                                    <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude=""></ul>
+                                    <div class="tab-content">
+                                        <!-- ngRepeat: tab in tabs --><!-- ngRepeat: tab in tabs --><!-- end ngRepeat: tab in tabs --><!-- ngRepeat: tab in tabs --><!-- end ngRepeat: tab in tabs -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-panel col-sm-3 col-md-sell-3" style="padding-left:1px;padding-top:10px">
+                    <form name="inputForm" class="ng-pristine ng-valid ng-valid-required">
+                        <div class="ng-isolate-scope">
+                            <ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude=""></ul>
+                            <div class="tab-content">
+                                <!-- ngRepeat: tab in tabs --><!-- ngRepeat: tab in tabs --><!-- end ngRepeat: tab in tabs --><!-- ngRepeat: tab in tabs --><!-- end ngRepeat: tab in tabs --><!-- ngRepeat: tab in tabs --><!-- end ngRepeat: tab in tabs -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--End-->
+            </div>
+        </div>
+    </div>
+    <span id="popupNotification" kendo-notification="posnotification" k-auto-hide-after="3000" data-role="notification" style="display: none;"></span>
+    <div ng-show="$root.showLoading" style="position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 10000;" class="ng-hide">
+        <div class="pace"><div class="pace-progress" data-progress="50" data-progress-text="365" style="-webkit-transform: translate3d(50%, 0px, 0px); -ms-transform: translate3d(50%, 0px, 0px); transform: translate3d(50%, 0px, 0px);"><div class="pace-progress-inner"></div></div><div class="pace-activity"></div></div>
+    </div>
+
+    <script type="text/ng-template" id="empty-form.html">
+        <div class="md-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{'message_EmptyProductTitle'|translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-info fade in">
+                            {{'message_EmptyProduct'|translate}}
+                        </div>
+
+                        <div class="row text-center">
+                            <a class="btn btn-primary" href="/#/Dashboard">
+                                {{'menu_Dashboard'|translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </script>
+    <script type="text/ng-template" id="calc-quantity.html">
+        <div class="md-content">
+            <div class="modal-header">
+                <button class="md-close close" ng-click="cancel()"><i class="fa fa-close"></i> </button>
+                <h4 class="modal-title">{{'label_SpreadsheetsQuantity'|translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{'label_Nameofvalue'|translate}} 1</label>
+                                <input type="text" class="form-control" ng-model="nameofvalue1" select-on-focus ng-change="changeValue1()">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{'label_Nameofvalue'|translate}} 2</label>
+                                <input type="text" class="form-control" ng-model="nameofvalue2" select-on-focus ng-change="changeValue2()">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{'label_Nameofvalue'|translate}} 3</label>
+                                <input type="text" class="form-control" ng-model="nameofvalue3" select-on-focus ng-change="changeValue3()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" style="margin-bottom: 0px;padding: 5px;">
+                        <i class="fa fa-info-circle fa-fw fa-lg"></i>
+                        <strong style="color:red">[Số lượng bán]=</strong> <strong>[{{'label_Value'|translate}} 1<span ng-show="nameofvalue1"> ({{nameofvalue1}})</span>]</strong> × <strong>[{{'label_Value'|translate}} 2<span ng-show="nameofvalue2"> ({{nameofvalue2}})</span>]</strong> × <strong>[{{'label_Value'|translate}} 3<span ng-show="nameofvalue3"> ({{nameofvalue2}})</span>]</strong> × <strong>
+                            [Hệ số phụ]
+                            <input type="text" class="text-right" style="width:100px" ng-model="otherValue" select-on-focus ui-numeric="{vMin:0}" ng-change="changeOtherValue()" />
+                        </strong>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="mainGridSpreadsheets" kendo-grid options="mainGridSpreadsheetsOptions">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-success" style="margin-bottom: 0px;padding: 5px;" ng-show="totalValue">
+                        {{descValue}}
+                    </div>
+                    <div class="pull-right">Tổng : {{totalValue|formatNumber}}{{unit||''}}</div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="pull-left">
+                <button class="btn btn-warning btn-xs" type="button" ng-click="cancel()">{{'button_Cancel'|translate}}</button>
+            </div>
+            <div class="pull-right">
+
+                <button class="btn btn-primary btn-xs" type="button" ng-click="save()">{{'button_Ok'|translate}}</button>
+            </div>
+
+        </div>
+    </script>
+    <script type="text/ng-template" id="checkprice.html">
+        <div class="md-content">
+            <div class="modal-header">
+                <button class="md-close close" ng-click="cancel()"><i class="fa fa-close"></i> </button>
+                <h4 class="modal-title">{{'label_CheckPriceBook'|translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12 checkprice">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+
+                                        <input ng-model="productkey" type="text" class="form-control" select-on-focus ng-change="getPriceList()" placeholder="{{'label_Code'|translate}}, {{'label_Name'|translate}}, {{'label_Product_Attributes'|translate}}" />
+
+                                        <span class="input-group-addon">&nbsp;<i class="fa fa-barcode"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+
+                        <div id="mainGridCheckPrice" kendo-grid options="mainGridCheckPriceOptions" grid-expand-row>
+                            <div k-detail-template>
+                                <div class="row">
+                                    <div kendo-grid k-options="globalInventoryGridOptions(dataItem)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="pull-left">
+                <button class="btn btn-warning btn-xs" type="button" ng-click="cancel()">{{'button_Cancel'|translate}}</button>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="checkpriceserver.html">
+        <div class="md-content">
+            <div class="modal-header">
+                <button class="md-close close" ng-click="cancel()"><i class="fa fa-close"></i> </button>
+                <h4 class="modal-title">{{'label_CheckPriceBook'|translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12 checkprice">
+
+
+                        <div kendo-grid options="mainGridCheckPriceServerOptions" grid-expand-row>
+                            <div k-detail-template>
+                                <div class="row">
+                                    <div kendo-grid k-options="globalInventoryGridOptions(dataItem)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="pull-left">
+                <button class="btn btn-warning btn-xs" type="button" ng-click="cancel()">{{'button_Cancel'|translate}}</button>
+            </div>
+        </div>
+    </script>
+
+
+
+
+
+
+    <div class="cfp-hotkeys-container fade ng-scope" ng-class="{in: helpVisible}" style="display: none;"><div class="cfp-hotkeys"><!-- ngIf: !header --><!-- ngIf: !header --><h4 class="cfp-hotkeys-title ng-binding ng-scope" ng-if="!header">Keyboard Shortcuts:</h4><!-- end ngIf: !header --><!-- end ngIf: !header --><!-- ngIf: header --><table><tbody><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } --></tbody></table><!-- ngIf: footer --><div class="cfp-hotkeys-close" ng-click="toggleCheatSheet()">×</div></div></div><div aria-hidden="true" class="k-calendar-container k-popup k-group k-reset" data-role="popup" style="display: none; position: absolute;"></div><div class="k-list-container k-list-scroller k-popup k-group k-reset" unselectable="on" data-role="popup" style="display: none; position: absolute;" aria-hidden="true"><ul tabindex="-1" role="listbox" aria-hidden="true" unselectable="on" class="k-list k-reset" style="overflow: auto;"></ul></div><div class="k-list-container k-popup k-group k-reset" id="dropPriceBook-list" data-role="popup" style="display: none; position: absolute;" aria-hidden="true"><div class="k-list-optionlabel ng-scope">Giá niêm yết</div><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="dropPriceBook_listbox" aria-live="off" data-role="staticlist" role="listbox"></ul></div><div class="k-nodata ng-scope" style=""><div>No data found.</div></div></div><div class="k-list-container k-popup k-group k-reset" id="dropAccount-list" data-role="popup" style="display: none; position: absolute;" aria-hidden="true">
+        <div class="k-list-optionlabel ng-scope k-state-selected k-state-focused" id="989be2f0-f2a8-44e8-9a7b-88d3de717a00">Tiền mặt</div><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on">
+            <ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" id="dropAccount_listbox" aria-live="off" data-role="staticlist" role="listbox">
+                <li tabindex="-1" role="option" unselectable="on" class="k-item ng-scope" aria-selected="false" data-offset-index="0">QR Code</li>
+            </ul>
+        </div><div class="k-nodata ng-scope" style="display:none"><div>No data found.</div></div>
+    </div><div class="k-list-container k-popup k-group k-reset" data-role="popup" style="display: none; position: absolute;" aria-hidden="true"><span class="k-list-filter"><input class="k-textbox" role="listbox" aria-haspopup="true" aria-expanded="false" aria-owns="" aria-disabled="true" aria-activedescendant="f06405e1-018b-44e8-abc0-07c1c5aad081"><span class="k-icon k-i-zoom"></span></span><div class="k-group-header" style="display:none"></div><div class="k-list-scroller" unselectable="on"><ul unselectable="on" class="k-list k-reset" tabindex="-1" aria-hidden="true" aria-live="polite" data-role="staticlist" role="listbox"><li tabindex="-1" role="option" unselectable="on" class="k-item ng-scope k-state-focused k-state-selected" aria-selected="true" data-offset-index="0" id="f06405e1-018b-44e8-abc0-07c1c5aad081">Admin</li></ul></div><div class="k-nodata ng-scope" style="display:none"><div>No data found.</div></div></div><div class="cfp-hotkeys-container fade ng-scope" ng-class="{in: helpVisible}" style="display: none;">
+        <div class="cfp-hotkeys">
+            <!-- ngIf: !header --><h4 class="cfp-hotkeys-title ng-binding ng-scope" ng-if="!header">Keyboard Shortcuts:</h4><!-- end ngIf: !header --><!-- ngIf: header --><table>
+                <tbody>
+                    <!-- ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">?</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Show / hide this help menu</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope">
+                        <td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f1</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td>
+                        <td class="cfp-hotkeys-text ng-binding">Tìm kiếm mặt hàng</td>
+                    </tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">ctrl + s</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Thêm mới Hàng hóa</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">ctrl + f1</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Chuyển đổi cơ chế tìm : Cân điện tử &lt;=&gt; Tìm kiếm thông minh &lt;=&gt; Tìm kiếm nhanh</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f2</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Tìm khách hàng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f3</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Tạm tính</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f4</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Thanh toán</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f6</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Chiết khấu</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f7</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Thêm mới khách hàng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f8</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Thêm mới đơn hàng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">f10</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Tiền khách trả</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">pageup</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Di chuyển chuột vào ô nhập số lượng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">pagedown</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Di chuyển chuột vào ô nhập số lượng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                    <tr ng-repeat="hotkey in hotkeys | filter:{ description: '!$$undefined$$' }" class="ng-scope"><td class="cfp-hotkeys-keys"><!-- ngRepeat: key in hotkey.format() track by $index --><span ng-repeat="key in hotkey.format() track by $index" class="cfp-hotkeys-key ng-binding ng-scope">ctrl + d</span><!-- end ngRepeat: key in hotkey.format() track by $index --></td><td class="cfp-hotkeys-text ng-binding">Xử lý đơn hàng</td></tr><!-- end ngRepeat: hotkey in hotkeys | filter:{ description: '!$$undefined$$' } -->
+                </tbody>
+            </table><!-- ngIf: footer --><div class="cfp-hotkeys-close" ng-click="toggleCheatSheet()">×</div>
+        </div>
+    </div><div modal-backdrop="modal-backdrop" modal-animation="true" class="ng-scope"></div><div modal-window="modal-window" index="0" animate="animate" modal-animation="true" class="ng-scope"></div>
+</body>
+</html>

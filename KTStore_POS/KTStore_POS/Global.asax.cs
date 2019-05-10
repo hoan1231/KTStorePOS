@@ -27,14 +27,14 @@ namespace KTStore
 
         protected void Application_End()
         {
-            //if (App.Scheduler != null)
-            //{
-            //    App.Scheduler.Dispose();
-            //    App.Scheduler = null;
-            //}
-            ////Force the App to be restarted immediately
-            //Scheduler sc = new Scheduler();
-            //sc.PingServer();
+            ////if (App.Scheduler != null)
+            ////{
+            ////    App.Scheduler.Dispose();
+            ////    App.Scheduler = null;
+            ////}
+            //////Force the App to be restarted immediately
+            ////Scheduler sc = new Scheduler();
+            ////sc.PingServer();
         }
     }
 }

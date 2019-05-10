@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_SalesLayout.cshtml";
+}
+
+<script>
+    $(function () {
+        $(".nav-tabs").on("click", "a", function (e) {
+            e.preventDefault();
+            if (!$(this).hasClass('add-bill')) {
+                $(this).tab('show');
+            }
+        }).on("click", "i.fa-close", function (e) {
+            e.preventDefault();
+            debugger;
+            var anchor = $(this).siblings('a');
+            $(anchor.attr('href')).remove();
+            $(this).parent().remove();
+            $(".nav-tabs li").children('a').first().click();
+        });
+
+        $('.add-bill').click(function (e) {
+            e.preventDefault();
+            console.log($(".nav-tabs").children());
+            var id = $(".nav-tabs").children().length - 4;
+            var tabId = 'bill_' + id;
+            var htmlTab = '<li><a href="#bill_' + id + '">';
+            htmlTab += '<span style="padding-left:6px;padding-right: 15px;">Đơn ' + id + '</span>';
+            htmlTab += '<i class="fa fa-close text-primary" style="position: absolute; top: 6px; right: 11px;cursor: pointer;"></i>';
+            htmlTab += '<p class="no-margin" style="padding-left:6px;"><small>Nguyễn Công Bình</small></p></a></li>';
+            $(this).closest('li').before(htmlTab);
+
+            $('.tab-content').append('<div class="tab-pane" id="' + tabId + '">Contact Form: New Contact ' + id + '</div>');
+            $('.nav-tabs li:nth-child(' + (Number(id) + 1) + ') a').click();
+            console.log(Number(id));
+        });
+    });
+</script>
+
+<div class="tab-content">
+    <div id="bill_1" class="tab-pane fade in active">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12"></div>
+        </div>
+    </div>
+</div>
+

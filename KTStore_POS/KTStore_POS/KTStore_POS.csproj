@@ -2033,6 +2033,16 @@
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="kt_sales\POS365.VN_files\analytics.js" />
+    <Content Include="kt_sales\POS365.VN_files\angular.js" />
+    <Content Include="kt_sales\POS365.VN_files\bootstrap.css" />
+    <Content Include="kt_sales\POS365.VN_files\kendo.common-material.min.css" />
+    <Content Include="kt_sales\POS365.VN_files\kendo.css" />
+    <Content Include="kt_sales\POS365.VN_files\kendo.js" />
+    <Content Include="kt_sales\POS365.VN_files\kendo.material.min.css" />
+    <Content Include="kt_sales\POS365.VN_files\kendo_002.css" />
+    <Content Include="kt_sales\POS365.VN_files\layout.css" />
+    <Content Include="kt_sales\POS365.VN_files\VendorSession.js" />
     <Content Include="kt_sales\Sale.htm" />
     <Content Include="Models\EFModel\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -2244,6 +2254,16 @@
     <Content Include="Models\EFModel\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="kt_sales\POS365.VN_files\analytics.js.download" />
+    <Content Include="kt_sales\POS365.VN_files\angular" />
+    <Content Include="kt_sales\POS365.VN_files\angular.min.js.download" />
+    <Content Include="kt_sales\POS365.VN_files\bootstrap" />
+    <Content Include="kt_sales\POS365.VN_files\database" />
+    <Content Include="kt_sales\POS365.VN_files\jquery" />
+    <Content Include="kt_sales\POS365.VN_files\kendo.web.min.js.download" />
+    <Content Include="kt_sales\POS365.VN_files\layout" />
+    <Content Include="kt_sales\POS365.VN_files\sell" />
+    <Content Include="kt_sales\POS365.VN_files\VendorSession" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml">
       <SubType>Designer</SubType>
     </None>

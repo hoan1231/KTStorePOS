@@ -3,10 +3,14 @@
     Layout = "~/Views/Shared/_SalesLayout.cshtml";
 }
 
+
+
+<script src="https://www.jqueryscript.net/demo/jQuery-Plugin-For-Editable-Table-Rows-Table-Edits/build/table-edits.min.js"></script>
 <script>
     $(function () {
-        $(".nav-tabs").on("click", "a", function (e) {
+        $(".main-header .nav-tabs").on("click", "a", function (e) {
             e.preventDefault();
+            debugger;
             if (!$(this).hasClass('add-bill')) {
                 $(this).tab('show');
             }
@@ -16,34 +20,835 @@
             var anchor = $(this).siblings('a');
             $(anchor.attr('href')).remove();
             $(this).parent().remove();
-            $(".nav-tabs li").children('a').first().click();
+            $(".main-header .nav-tabs li").children('a').first().click();
         });
 
         $('.add-bill').click(function (e) {
             e.preventDefault();
-            console.log($(".nav-tabs").children());
-            var id = $(".nav-tabs").children().length - 4;
+            console.log($(".main-header .nav-tabs").children());
+            var id = $(".main-header .nav-tabs").children().length - 4;
             var tabId = 'bill_' + id;
             var htmlTab = '<li><a href="#bill_' + id + '">';
-            htmlTab += '<span style="padding-left:6px;padding-right: 15px;">Đơn ' + id + '</span>';
+            htmlTab += '<span style="padding-left:6px;padding-right: 15px;">Đơn hàng ' + id + '</span>';
             htmlTab += '<i class="fa fa-close text-primary" style="position: absolute; top: 6px; right: 11px;cursor: pointer;"></i>';
             htmlTab += '<p class="no-margin" style="padding-left:6px;"><small>Nguyễn Công Bình</small></p></a></li>';
             $(this).closest('li').before(htmlTab);
 
-            $('.tab-content').append('<div class="tab-pane" id="' + tabId + '">Contact Form: New Contact ' + id + '</div>');
-            $('.nav-tabs li:nth-child(' + (Number(id) + 1) + ') a').click();
+            $('.mail-tab').append('<div class="tab-pane" id="' + tabId + '">Contact Form: New Contact ' + id + '</div>');
+            $('.main-header .nav-tabs li:nth-child(' + (Number(id) + 1) + ') a').click();
             console.log(Number(id));
         });
+
+
+
+
+        $("table tr").editable({
+            keyboard: true,
+            dblclick: true,
+            button: true,
+            buttonSelector: ".edit",
+            dropdowns: {},
+            maintainWidth: true,
+            edit: function (values) { },
+            save: function (values) { },
+            cancel: function (values) { }
+        });
+
+
     });
 </script>
+<link href="/Content/Sales/POS.css" rel="stylesheet" />
 
-<div class="tab-content">
+<div class="mail-tab tab-content">
     <div id="bill_1" class="tab-pane fade in active">
         <div class="row">
-            <div class="col-md-6 col-lg-6 col-sm-12">
+            <div class="col-sm-9" style="padding-left:0px; padding-right:0px;">
+                <div id="content-wrapper" style="padding:10px 5px 0px 5px;min-height:0;">
+                    <div class="row" style="opacity: 1;">
+                        <div class="col-lg-12">
 
+                            <div class="selltable table-responsive logosellhide">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:24px" class="hidden-sm hidden-xs"><span>#</span></th>
+                                            <th class="text-left hidden-sm hidden-xs" style="width:120px"><span class="ng-binding">Mã</span></th>
+                                            <th><span class="ng-binding">Tên hàng hóa</span></th>
+
+                                            <th class="text-center" style="width:90px"><span class="ng-binding">Đơn giá</span></th>
+
+                                            <th class="text-center" style="width:170px"><span class="ng-binding">SL</span></th>
+                                            <th class="text-center  hidden-xs" style="width:90px"><span class="ng-binding">Thành tiền</span></th>
+                                            <th class="text-center" style="width:20px"><span></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                <span class="has-pointer label label-primary" style="font-size:8px;">1</span>
+                                            </td>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                HH000010
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-calendar-times-o  has-pointer"></i>
+                                                <span class="">Son mầu nghệ </span>
+                                                <span class="label label-info" style="font-size:9px">8</span>&nbsp;
+                                                <br><span style="white-space: pre;" class="gridNote fa fa-edit"> Ghi chú</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <input type="text" value="512,000" class="text-right form-control">
+                                                </div>
+                                            </td>
+                                            <td class="text-center sellinput">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-minus text-red"></i></span>
+                                                    <input type="text" value="1" class="text-right form-control txtQuantity">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-plus text-red"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-right hidden-xs">
+                                                <span class="has-pointer">512,000</span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span style="font-size: 18px;" class="fa fa-trash-o has-pointer text-red"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                <span class="has-pointer label label-primary" style="font-size:8px;">1</span>
+                                            </td>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                HH000010
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-calendar-times-o  has-pointer"></i>
+                                                <span class="">Son mầu nghệ </span>
+                                                <span class="label label-info" style="font-size:9px">8</span>&nbsp;
+                                                <br><span style="white-space: pre;" class="gridNote fa fa-edit"> Ghi chú</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <input type="text" value="512,000" class="text-right form-control">
+                                                </div>
+                                            </td>
+                                            <td class="text-center sellinput">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-minus text-red"></i></span>
+                                                    <input type="text" value="1" class="text-right form-control txtQuantity ">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-plus text-red"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-right hidden-xs">
+                                                <span class="has-pointer">512,000</span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span style="font-size: 18px;" class="fa fa-trash-o has-pointer text-red"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                <span class="has-pointer label label-primary" style="font-size:8px;">1</span>
+                                            </td>
+                                            <td class="text-left hidden-sm hidden-xs">
+                                                HH000010
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-calendar-times-o  has-pointer"></i>
+                                                <span class="">Son mầu nghệ </span>
+                                                <span class="label label-info" style="font-size:9px">8</span>&nbsp;
+                                                <br><span style="white-space: pre;" class="gridNote fa fa-edit"> Ghi chú</span>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <div class="input-group">
+                                                    <input type="text" value="512,000" class="text-right form-control">
+                                                </div>
+                                            </td>
+                                            <td class="text-center sellinput">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-minus text-red"></i></span>
+                                                    <input type="text" value="1" class="text-right form-control txtQuantity">
+                                                    <span class="input-group-addon themecolor hidden-xs"><i class="fa fa-plus text-red"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-right hidden-xs">
+                                                <span class="has-pointer">512,000</span>
+                                            </td>
+                                            <td class="text-right">
+                                                <span style="font-size: 18px;" class="fa fa-trash-o has-pointer text-red"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="font-style:italic;color:gray;text-align:center;width:100%; display:none">Chưa có mặt hàng nào trong danh sách.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden-xs" style="opacity: 1;">
+                        <div class="col-sm-12 productlist">
+                            <div class="icon-box pull-right">
+                                <a href="javascript:void(0)" class="btn pull-left hidden-sm" style="padding: 0px 5px;font-size:0.625em">
+                                    <i class="fa  fa-book"></i>
+                                </a>
+                                <a class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                    <i class="fa fa-filter"></i>
+                                </a>
+                                <select class="pull-left" style="height: 16px; font-size: 12px; font-weight: bold;border-radius:3px;border:1px solid #ccc;">
+                                    <option value="" selected="selected">-- Chọn nhóm--</option>
+                                    <option label="Son trang điểm" value="number:205306">Son trang điểm</option>
+                                    <option label="Sữa rửa mặt" value="number:205307">Sữa rửa mặt</option>
+                                    <option label="Kem trang điểm" value="number:205308">Kem trang điểm</option>
+                                    <option label="Nước hoa" value="number:205309">Nước hoa</option>
+                                </select>
+                                <a class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                    <i class="fa fa-chevron-left"></i>
+                                </a>
+                                <a class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                    1 / 2
+                                </a>
+
+                                <a class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                    <i class="fa fa-chevron-right"></i>
+                                </a>
+                                <a class="btn pull-left" style="padding: 0px 5px;font-size:0.625em">
+                                    <i class="fa fa-chevron-down"></i>
+                                </a>
+                            </div>
+                            <div class="simpleTab">
+                                <ul class="nav nav-tabs">
+                                    <li heading="Hàng hóa" class="active">
+                                        <a data-toggle="tab" href="#tab-products">Hàng hóa</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-bestsale">Hàng bán chạy</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-products" class="tab-pane active">
+                                        <div class="row" style="min-height:255px; background: #e7ebee;overflow-y:hidden;padding-top: 15px;">
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/ed8ef77741de296de627471fdf232151.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">350,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Chăm sóc body&nbsp;<span class="label label-primary" style="font-size:8px;">10</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/bo-tri-mun-laneige.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">300,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Trị mụn và chăm sóc da mặt&nbsp;<span class="label label-primary" style="font-size:8px;">12</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/1463109949264_3993450.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">250,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Đắp mặt&nbsp;<span class="label label-primary" style="font-size:8px;">10</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/download.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">820,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Tắm trắng&nbsp;<span class="label label-primary" style="font-size:8px;">4</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/san-pham-tri-mun-đau-den-13.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">260,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Trị mụn đầu đen&nbsp;<span class="label label-primary" style="font-size:8px;">6</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/11563607752734.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">35,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son hồng nhẹ&nbsp;<span class="label label-primary" style="font-size:8px;">16</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/BeautyAdmin_20170210094356623_g1kx_94_600x600.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">25,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son đỏ&nbsp;<span class="label label-primary" style="font-size:8px;">4</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/1885900_L.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">38,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son nâu phớt&nbsp;<span class="label label-primary" style="font-size:8px;">2</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/do-tham.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">70,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son đỏ sẫm&nbsp;<span class="label label-primary" style="font-size:8px;">2</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/pngtree-lipstick-products-png-clipart_1813170.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">32,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son mầu nghệ&nbsp;<span class="label label-primary" style="font-size:8px;">8</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/bộ-sản-phẩm-trị-mụn-pure-skin-của-oriflame.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">39,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Sữa tẩy sạch da mặt&nbsp;<span class="label label-primary" style="font-size:8px;">16</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/BO-SAN-PHAM-TRI-MỤN-2.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">75,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Sữa trị mụn&nbsp;<span class="label label-primary" style="font-size:8px;">6</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-bestsale" class="tab-pane">
+                                        <div class="row" style="min-height:255px; background: #e7ebee;overflow-y:hidden;padding-top: 15px;">
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/san-pham-tri-mun-đau-den-13.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">260,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Trị mụn đầu đen&nbsp;<span class="label label-primary" style="font-size:8px;">6</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/11563607752734.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">35,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son hồng nhẹ&nbsp;<span class="label label-primary" style="font-size:8px;">16</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/BeautyAdmin_20170210094356623_g1kx_94_600x600.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">25,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son đỏ&nbsp;<span class="label label-primary" style="font-size:8px;">4</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/ed8ef77741de296de627471fdf232151.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">350,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Chăm sóc body&nbsp;<span class="label label-primary" style="font-size:8px;">10</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/bo-tri-mun-laneige.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">300,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Trị mụn và chăm sóc da mặt&nbsp;<span class="label label-primary" style="font-size:8px;">12</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/1463109949264_3993450.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">250,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Đắp mặt&nbsp;<span class="label label-primary" style="font-size:8px;">10</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/download.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">820,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Tắm trắng&nbsp;<span class="label label-primary" style="font-size:8px;">4</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/bộ-sản-phẩm-trị-mụn-pure-skin-của-oriflame.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">39,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Sữa tẩy sạch da mặt&nbsp;<span class="label label-primary" style="font-size:8px;">16</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/BO-SAN-PHAM-TRI-MỤN-2.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">75,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Sữa trị mụn&nbsp;<span class="label label-primary" style="font-size:8px;">6</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/1885900_L.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">38,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son nâu phớt&nbsp;<span class="label label-primary" style="font-size:8px;">2</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/do-tham.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">70,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son đỏ sẫm&nbsp;<span class="label label-primary" style="font-size:8px;">2</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="padding-bottom:10px" class="col-lg-2 col-md-2 col-sm-2 col-xs-6 col-xs-6">
+                                                <div class="product-photo-box has-pointer"
+                                                     style="height:110px;background:url('/Content/dist/imgpro/pngtree-lipstick-products-png-clipart_1813170.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                                                    <div style="text-align:right;padding-right:2px">
+                                                        <span class="thumb-meta-time">32,000</span>
+                                                    </div>
+                                                    <div class="thumb-meta-waiter">
+                                                        Son mầu nghệ&nbsp;<span class="label label-primary" style="font-size:8px;">8</span><br>
+                                                        <span style="font-size:11px;font-style:italic;color:red;"></span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-sm-12"></div>
+            <div class="input-panel col-sm-3 col-md-sell-3" style="padding-left:1px;padding-top:10px">
+                <div>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tab-info">Thông tin</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tab-details">Chi tiết</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tab-ship">Giao hàng</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-info" class="tab-pane active">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Tìm khách hàng">
+                                    <span class="input-group-addon">&nbsp;<i class="fa fa-search"></i></span>
+                                    <span style="cursor:pointer" class="input-group-addon themecolor" ng-click="AddPartner(0)">&nbsp;<i class="fa fa-plus"></i></span>
+                                </div>
+                                <div style="padding-left:5px;font-size:0.75em;">
+                                    <a href="javascript:void(0)"><span class="fa fa-remove"></span></a>
+                                    <a style="cursor:pointer">
+                                        Khách lẻ  <br>
+                                        @*<span ng-show="order.PartnerId">&nbsp;&nbsp;&nbsp;Điểm thưởng : 0</span>*@
+                                        @*<span ng-show="order.PartnerId">&nbsp;&nbsp;&nbsp;Dư nợ : 0</span>*@
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="k-widget k-datetimepicker k-header" style="width: 100%;">
+                                    <span class="k-picker-wrap k-state-default">
+                                        <input placeholder="11/05/2019 23:06" style="width: 100%;" type="text" class="k-input">
+                                        <span unselectable="on" class="k-select">
+                                            <span class="k-link k-link-date" aria-label="Open the date view">
+                                                <span unselectable="on" class="k-icon k-i-calendar"></span>
+                                            </span>
+                                            <span class="k-link k-link-time" aria-label="Open the time view">
+                                                <span unselectable="on" class="k-icon k-i-clock"></span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <span title="" class="k-widget k-dropdown k-header" style="width: 100%;">
+                                    <span unselectable="on" class="k-dropdown-wrap k-state-default">
+                                        <span class="k-input">Giá niêm yết</span>
+                                        <span class="k-select" aria-label="select">
+                                            <span class="k-icon k-i-arrow-60-down"></span>
+                                        </span>
+                                    </span><select id="dropPriceBook" kendo-drop-down-list="" style="width: 100%; display: none;">
+                                        <option value="" selected="selected">Giá niêm yết</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover" style="margin-bottom:0px">
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Trạng thái</strong>
+                                                </td>
+                                                <td class="text-right" width="140">
+                                                    <select class="pull-left" style="height: 20px;border-radius:3px;border:1px solid #ccc;width: 100%;">
+                                                        <option label="Hoàn thành" value="number:2" selected="selected">Hoàn thành</option>
+                                                        <option label="Đặt hàng" value="number:1">Đặt hàng</option>
+                                                        <option label="Đang giao" value="number:4">Đang giao</option>
+                                                    </select>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tổng số lượng</strong>
+                                                </td>
+                                                <td class="text-right" width="140">
+                                                    <span class="label label-primary">44</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tổng thành tiền</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="label label-primary">8,906,800</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr ng-show="order.ShippingCost" class="">
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Phí giao hàng</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="label label-primary">0</span>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="themecolor">Chiết khấu </strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" style="padding:5px">
+                                                            <a style="cursor:pointer;"><i class="fa fa-gift"></i></a>
+                                                        </span>
+                                                        <input type="text" id="inputDiscount" readonly="" style="height: 28px;padding: 5px 5px;" class="form-control text-right has-pointer">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong>
+                                                        VAT <span style="font-size:12px" class="label has-pointer label-info">0</span>&nbsp;
+                                                        <span style="font-size:12px" class="label has-pointer label-primary">10%</span>&nbsp;
+                                                        <span style="font-size:12px" class="label has-pointer label-primary">?</span>
+                                                    </strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span style="font-size:12px" class="label label-primary">0</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tổng cộng</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="label label-large label-info has-pointer"
+                                                          style="background-color: #e74c3c;font-size:1.3em;padding: .4em -0.2em .5em;">8,906,800</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tiền khách trả</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" style="padding:5px">
+                                                            <a style="cursor:pointer;">
+                                                                <i class="fa fa-files-o"></i>
+                                                            </a>
+                                                        </span>
+                                                        <input id="inputAmountReceived" type="text" class="form-control text-right" placeholder="Thanh toán" style="height: 28px;padding: 5px 5px;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tiền thừa</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="label label-primary">0</span>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Tài khoản</strong>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span title="" class="k-widget k-dropdown k-header" style="width: 100%;">
+                                                        <span unselectable="on" class="k-dropdown-wrap k-state-default">
+                                                            <span unselectable="on" class="k-input">Tiền mặt</span>
+                                                            <span unselectable="on" class="k-select" aria-label="select">
+                                                                <span class="k-icon k-i-arrow-60-down"></span>
+                                                            </span>
+                                                        </span><select id="dropAccount" style="width: 100%; display: none;">
+                                                            <option value="" selected="selected">Tiền mặt</option>
+                                                            <option value="978">QR Code</option>
+                                                        </select>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left" colspan="2">
+
+                                                    <div class="radio" style="margin-bottom:0px">
+                                                        <input type="radio" value="0">
+                                                        <label for="optionsRadiosExcessCash0" class="ng-binding">
+                                                            Trả lại tiền
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left" colspan="2">
+                                                    <div class="radio" style="margin-bottom:0px">
+                                                        <input type="radio" name="optionsRadiosExcessCash" id="optionsRadiosExcessCash1" value="1" />
+                                                        <label for="optionsRadiosExcessCash1" class="ng-binding">
+                                                            Cộng vào tài khoản nợ
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button style="padding:1px 15px 0px 15px;width:100%" class="btn btn-warning btn-lg btn-ex" type="button">
+                                        Tạm tính<br>
+                                        <span class="fa fa-print"></span> [F3]
+                                    </button><br>
+                                    <button style="padding:0px 15px 0px 15px;width:100%;margin-top:5px;" class="btn btn-danger btn-lg btn-exgreen" type="button">
+                                        Thanh toán <br>
+                                        <span class="fa fa-shopping-cart"></span> [F4]
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-details" class="tab-pane">
+                            <div class="form-group">
+                                <label for="" class="ng-binding">Mã đơn hàng</label>
+                                <input type="text" class="form-control" placeholder="Tự động tạo mã">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="ng-binding">Người bán</label>
+                                <span class="k-widget k-dropdown k-header" style="width: 100%;">
+                                    <span class="k-dropdown-wrap k-state-disabled">
+                                        <span class="k-input">Admin</span>
+                                        <span unselectable="on" class="k-select" aria-label="select">
+                                            <span class="k-icon k-i-arrow-60-down"></span>
+                                        </span>
+                                    </span>
+                                    <select style="width: 100%; display: none;">
+                                        <option value="51310">Admin</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="ng-binding">Ghi chú</label>
+                                <textarea class="form-control" rows="8"></textarea>
+                            </div>
+                        </div>
+                        <div id="tab-ship" class="tab-pane">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Đối tác giao hàng">
+                                    <span class="input-group-addon">&nbsp;<i class="fa fa-search"></i></span>
+                                    <span style="cursor:pointer" class="input-group-addon">&nbsp;<i class="fa fa-plus"></i></span>
+                                </div>
+                                <div style="padding-left:5px;font-size:0.75em;">
+                                    <a href="javascript:void(0)">
+                                        <span class="fa fa-remove"></span>
+                                    </a>
+                                    <a style="cursor:pointer">Không xác định  <br><span ng-show="order.tmpDeliveryById">&nbsp;&nbsp;&nbsp;Dư nợ : 0</span></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Mã vận đơn</strong>
+                                                </td>
+                                                <td class="text-right" width="140">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control text-right" style="height: 28px;padding: 5px 5px;" placeholder="Tự động tạo mã">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong class="ng-binding">Phí giao hàng</strong><br><i style="font-size:9px" class="ng-binding">[Tiền khách trả]</i>
+                                                </td>
+                                                <td class="text-right" width="140">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control text-right" style="height: 28px;padding: 5px 5px;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <strong>Chi phí giao hàng</strong><br><i style="font-size:9px" class="ng-binding">[Đối tác giao hàng]</i>
+                                                </td>
+                                                <td class="text-right" width="140">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control text-right" style="height: 28px;padding: 5px 5px;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

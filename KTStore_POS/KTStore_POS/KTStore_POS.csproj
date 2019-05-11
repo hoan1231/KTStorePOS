@@ -798,6 +798,18 @@
     <Content Include="Content\dist\Images\wb\index.png" />
     <Content Include="Content\dist\Images\white-arrow.gif" />
     <Content Include="Content\dist\Images\yellow_phone.png" />
+    <Content Include="Content\dist\imgpro\11563607752734.jpg" />
+    <Content Include="Content\dist\imgpro\1463109949264_3993450.jpg" />
+    <Content Include="Content\dist\imgpro\1885900_L.jpg" />
+    <Content Include="Content\dist\imgpro\BeautyAdmin_20170210094356623_g1kx_94_600x600.jpg" />
+    <Content Include="Content\dist\imgpro\BO-SAN-PHAM-TRI-MỤN-2.jpg" />
+    <Content Include="Content\dist\imgpro\bo-tri-mun-laneige.jpg" />
+    <Content Include="Content\dist\imgpro\bộ-sản-phẩm-trị-mụn-pure-skin-của-oriflame.jpg" />
+    <Content Include="Content\dist\imgpro\do-tham.jpg" />
+    <Content Include="Content\dist\imgpro\download.jpg" />
+    <Content Include="Content\dist\imgpro\ed8ef77741de296de627471fdf232151.jpg" />
+    <Content Include="Content\dist\imgpro\pngtree-lipstick-products-png-clipart_1813170.jpg" />
+    <Content Include="Content\dist\imgpro\san-pham-tri-mun-đau-den-13.jpg" />
     <Content Include="Content\dist\img\1498552373_user.png" />
     <Content Include="Content\dist\img\avatar.png" />
     <Content Include="Content\dist\img\avatar04.png" />
@@ -828,6 +840,7 @@
     <Content Include="Content\dist\img\user6-128x128.jpg" />
     <Content Include="Content\dist\img\user7-128x128.jpg" />
     <Content Include="Content\dist\img\user8-128x128.jpg" />
+    <Content Include="Content\dist\img\whitey.jpg" />
     <Content Include="Content\dist\ionicons\2.0.1\css\ionicons.min.css" />
     <Content Include="Content\dist\js\app.js" />
     <Content Include="Content\dist\js\app.min.js" />
@@ -2007,6 +2020,7 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="Content\plugins\Toastrjs\toastr.min.css" />
     <Content Include="Content\plugins\Toastrjs\toastr.min.js" />
+    <Content Include="Content\Sales\POS.css" />
     <Content Include="Content\starter.html" />
     <Content Include="crm_manager\CSS\Billing.css" />
     <Content Include="crm_manager\CSS\Login.css" />
@@ -2031,6 +2045,7 @@
     <Content Include="crm_manager\Js\UserInfor.js" />
     <Content Include="crm_manager\Js\Version.js" />
     <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="kt_sales\POS365.VN_files\analytics.js" />
